@@ -54,7 +54,7 @@
           phases = [ "installPhase" ];
           installPhase = ''
             mkdir -p "$out/bin"
-            makeWrapper "${zsh}/bin/zsh" "$out/bin/zsh" --set ZDOTDIR "./config" --set PWZSH 1 --prefix PATH : ${pkgs.lib.makeBinPath dependencies}
+            makeWrapper "${zsh}/bin/zsh" "$out/bin/zsh" --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : ${pkgs.lib.makeBinPath dependencies}
           '';
         };
         apps.pwzsh = flake-utils.lib.mkApp {
