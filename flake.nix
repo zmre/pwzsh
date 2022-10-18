@@ -54,6 +54,8 @@
           phases = [ "installPhase" ];
           installPhase = ''
             mkdir -p "$out/bin"
+            mkdir -p "$out/config"
+            cp ./config/.zshrc $out/config
             makeWrapper "${zsh}/bin/zsh" "$out/bin/zsh" --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : ${pkgs.lib.makeBinPath dependencies}
           '';
         };
