@@ -37,6 +37,13 @@ export PAGER="less"
 export MANPAGER="less -R --use-color -Dd+r -Du+b +Gg -M -s"
 export SYSTEMD_COLORS="true"
 export FZF_CTRL_R_OPTS="--sort --exact"
+export PROMPT="%B%(?..[%?] )%b%n@%U%m%u> "
+export RPROMPT="%~"
+export PS1="%B%(?..[%?] )%b%n@%U%m%u> "
+export PS2="%_> "
+export PS3="?# "
+export PS4="+%N:%i> "
+
 
 
 set -o vi
@@ -105,10 +112,6 @@ zstyle ':completion:*:*:*:*:users' list-colors '=*=36;40' # dark cyan on black
 
 setopt list_ambiguous
 
-zmodload -a autocomplete
-zmodload -a complist
-
-bindkey '^I' fzf-completion
 
 # Aliases
 alias f='\fd -H'

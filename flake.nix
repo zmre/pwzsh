@@ -9,39 +9,49 @@
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            (self: super: {
-              pwnvim = inputs.pwnvim;
-            })];
+        pkgs = import nixpkgs { inherit system; };
+        config = pkgs.writeTextFile {
+          name = "zshrc";
+          text =   builtins.readFile ./config/zshrc + ''
+            fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
+            source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+            source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+            source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+            zmodload -a autocomplete
+            zmodload -a complist
+            #bindkey '^I' fzf-completion
+          '';
         };
 
       in rec {
         dependencies = with pkgs; [
-          fd
-          ripgrep
-          fzy
-          fzf
-          zoxide
-          exa
-          curl
-          git
-          less
-          file
-          exif
-          mdcat # colorize markdown
-          pkgs.btop
-          pstree
           bat
+          btop
+          coreutils
+          cowsay # this is here to help with testing
+          curl
+          exa
+          exif
+          fd
+          file
+          fzf
+          fzy
+          git
+          gnused
+          less
+          mdcat # colorize markdown
+          pstree
+          inputs.pwnvim.packages.${system}.pwnvim
+          ripgrep
+          starship
+          zoxide
+          zsh
           zsh-completions
           zsh-autocomplete
           zsh-autosuggestions
           zsh-syntax-highlighting
-          starship
           #lf
           #tmux
-          cowsay # this is here to help with testing
         ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ ueberzug ];
 
         packages.pwzsh = with pkgs; stdenv.mkDerivation rec {
@@ -52,31 +62,28 @@
           buildInputs = [ zsh ];
           nativeBuildInputs = [ makeWrapper ];
           phases = [ "installPhase" ];
+          
           installPhase = ''
             mkdir -p "$out/bin"
             mkdir -p "$out/config"
-            cp $src/config/.zshrc $out/config
-            makeWrapper "${zsh}/bin/zsh" "$out/bin/zsh" --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : ${pkgs.lib.makeBinPath dependencies}
+            cp ${config} $out/config/.zshrc
+            makeWrapper "${zsh}/bin/zsh" "$out/bin/pwzsh" --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : "$out/bin:"${pkgs.lib.makeBinPath dependencies}
           '';
         };
         apps.pwzsh = flake-utils.lib.mkApp {
           drv = packages.pwzsh;
           name = "pwzsh";
-          exePath = "/bin/zsh";
+          exePath = "/bin/pwzsh";
         };
         packages.default = packages.pwzsh;
         apps.default = apps.pwzsh;
-        devShell = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            packages.pwzsh
-          ] ++ dependencies;
+        # devShell = pkgs.mkShell {
+        #   buildInputs = dependencies;
 
-          shellHook = ''
-            zsh
-          '';
-        };
+        #   shellHook = ''
+        #   '';
+        # };
       }
     );
 
 }
-#source /nix/store/dfxbf136hkvyhlca9z4dzv145rsl64l3-zsh-syntax-highlighting-0.7.1/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
