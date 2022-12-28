@@ -69,7 +69,7 @@
               mkdir -p "$out/bin"
               mkdir -p "$out/config"
               cp ${config} $out/config/.zshrc
-              makeWrapper "${zsh}/bin/zsh" "$out/bin/pwzsh" --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : "$out/bin:"${
+              makeWrapper "${zsh}/bin/zsh" "$out/bin/pwzsh" --set SHELL_SESSIONS_DISABLE 1 --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : "$out/bin:"${
                 pkgs.lib.makeBinPath dependencies
               }
             '';
