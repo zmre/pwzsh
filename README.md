@@ -1,6 +1,8 @@
-# README
+# Pre-configured zsh shell via flake
 
 This is a flake that produces a minimal zsh shell that should work reasonably well in crappy environments like a fresh linux console or Mac Terminal. It doesn't require fancy fonts and assumes a limited number of available colors.
+
+I use it when setting up new systems before I've bootstrapped nix and a full environment or when I'm using someone else's config/computer and just need something more familiar so I can be more productive.
 
 To run it if you have nix installed, do this:
 
