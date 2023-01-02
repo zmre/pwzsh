@@ -8,21 +8,7 @@
   };
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        config = pkgs.writeTextFile {
-          name = "zshrc";
-          text = builtins.readFile ./config/zshrc + ''
-            fpath=(${pkgs.zsh-completions}/share/zsh/site-functions $fpath)
-            source ${pkgs.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-            source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-            source ${pkgs.zsh-syntax-highlighting}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-            zmodload -a autocomplete
-            zmodload -a complist
-            #bindkey '^I' fzf-completion
-          '';
-        };
-
+      let pkgs = import nixpkgs { inherit system; };
       in rec {
         dependencies = with pkgs;
           [
@@ -31,6 +17,7 @@
             coreutils
             cowsay # this is here to help with testing
             curl
+            direnv
             exa
             exif
             fd
@@ -51,8 +38,6 @@
             zsh-autocomplete
             zsh-autosuggestions
             zsh-syntax-highlighting
-            #lf
-            #tmux
           ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ ueberzug ];
 
         packages.pwzsh = with pkgs;
@@ -68,7 +53,15 @@
             installPhase = ''
               mkdir -p "$out/bin"
               mkdir -p "$out/config"
-              cp ${config} $out/config/.zshrc
+              export zsh_autosuggestions="${pkgs.zsh-autosuggestions}"
+              export zsh_autocomplete="${pkgs.zsh-autocomplete}"
+              export zsh_syntax_highlighting="${pkgs.zsh-syntax-highlighting}"
+              export fzf="${pkgs.fzf}"
+              export starship="${pkgs.starship}"
+              export zoxide="${pkgs.zoxide}"
+              export direnv="${pkgs.direnv}"
+              export zsh_completions="${pkgs.zsh-completions}"
+              substituteAll $src/config/zshrc $out/config/.zshrc
               makeWrapper "${zsh}/bin/zsh" "$out/bin/pwzsh" --set SHELL_SESSIONS_DISABLE 1 --set ZDOTDIR "$out/config" --set PWZSH 1 --prefix PATH : "$out/bin:"${
                 pkgs.lib.makeBinPath dependencies
               }
@@ -81,12 +74,6 @@
         };
         packages.default = packages.pwzsh;
         apps.default = apps.pwzsh;
-        # devShell = pkgs.mkShell {
-        #   buildInputs = dependencies;
-
-        #   shellHook = ''
-        #   '';
-        # };
       });
 
 }
