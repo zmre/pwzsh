@@ -1,0 +1,74 @@
+add_newline = true
+format = "$os$username$hostname$singularity$kubernetes$directory$vcsh$fossil_branch$git_branch$git_commit$git_state$git_status$git_metrics$hg_branch$pijul_channel$sudo$jobs$line_break$battery$time$status$container$shell$character"
+right_format = "$cmd_duration$shlvl$docker_context$package$c$cmake$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$golang$guix_shell$haskell$haxe$helm$java$julia$kotlin$gradle$lua$nim$nodejs$ocaml$opa$perl$php$pulumi$purescript$python$raku$rlang$red$ruby$rust$scala$swift$terraform$vlang$vagrant$zig$buf$nix_shell$conda$meson$spack$memory_usage$aws$gcloud$openstack$azure$env_var$crystal$custom"
+scan_timeout = 30
+
+[aws]
+disabled = true
+
+[character]
+error_symbol = "[❯](red)"
+success_symbol = "[❯](purple)"
+vicmd_symbol = "[❮](green)"
+
+[cmd_duration]
+format = "[$duration]($style)   "
+min_time_to_notify = 5000
+style = "bold yellow"
+
+[directory]
+format = "[    ](bright-black)[$path]($style)[$read_only]($read_only_style) "
+style = "bold blue"
+truncate_to_repo = false
+truncation_length = 4
+truncation_symbol = "…/"
+
+[directory.substitutions]
+Documents = " "
+Downloads = " "
+Music = " "
+Pictures = " "
+
+[gcloud]
+disabled = true
+
+[git_branch]
+format = "[  ](bright-black)[$symbol$branch(:$remote_branch)]($style) "
+style = "bright-black"
+
+[git_metrics]
+disabled = false
+
+[git_status]
+style = "blue"
+
+[jobs]
+format = "[$symbol]($style)"
+number_threshold = 1
+style = "bold red"
+symbol = ""
+
+[kubernetes]
+disabled = false
+
+[kubernetes.context_aliases]
+"gke_.*_(?P<var_cluster>[\\w-]+)" = "$var_cluster"
+
+[nix_shell]
+symbol = " "
+
+[os]
+disabled = false
+
+[os.symbols]
+Macos = ""
+
+[package]
+disabled = true
+format = "version [$version](bold green) "
+
+[rust]
+symbol = " "
+
+[time]
+disabled = true
