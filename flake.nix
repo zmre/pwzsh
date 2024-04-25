@@ -23,7 +23,7 @@
           cowsay # this is here to help with testing
           curl
           direnv
-          exa
+          eza
           exif
           fd
           file

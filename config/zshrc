@@ -94,11 +94,11 @@ setopt list_ambiguous
 # Aliases
 alias f='\fd -H'
 alias fd='\fd -H -t d'
-alias l='exa --icons --git-ignore --git -F --extended'
-alias ll='exa --icons --git-ignore --git -F --extended -l'
-alias llt='exa --icons --git-ignore --git -F --extended -l -T'
+alias l='eza --icons --git-ignore --git -F --extended'
+alias ll='eza --icons --git-ignore --git -F --extended -l'
+alias llt='eza --icons --git-ignore --git -F --extended -l -T'
 alias ls='ls --color=auto -F'
-alias lt='exa --icons --git-ignore --git -F --extended -T'
+alias lt='eza --icons --git-ignore --git -F --extended -T'
 alias n='zk edit --interactive'
 
 

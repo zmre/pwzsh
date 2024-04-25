@@ -18,7 +18,7 @@ Additionally you'll get some utilities, including (not copmrehensive):
 * btop
 * curl
 * direnv
-* exa
+* eza
 * exif
 * fd
 * fzf
