@@ -13,8 +13,8 @@ source @zsh_autosuggestions@/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 eval "$(@zoxide@/bin/zoxide init zsh)"
 eval "$(@direnv@/bin/direnv hook zsh)"
 
-HISTSIZE="10000"
-SAVEHIST="0"
+export HISTSIZE="10000"
+export SAVEHIST="0"
 
 setopt HIST_FCNTL_LOCK
 setopt HIST_IGNORE_DUPS
@@ -42,12 +42,14 @@ export PAGER="less"
 export MANPAGER="less -R --use-color -Dd+r -Du+b +Gg -M -s"
 export SYSTEMD_COLORS="true"
 export FZF_CTRL_R_OPTS="--sort --exact"
+# Prompt is left: [returncode in bold] user@machine> (machine is underlined). right: path relative to home
 export PROMPT="%B%(?..[%?] )%b%n@%U%m%u> "
 export RPROMPT="%~"
 export PS1="%B%(?..[%?] )%b%n@%U%m%u> "
 export PS2="%_> "
-export PS3="?# "
+export PS3="?# i"
 export PS4="+%N:%i> "
+export STARSHIP_CONFIG=@starshipconfig@
 
 set -o vi
 bindkey -v
@@ -117,13 +119,11 @@ zstyle ':completion:*:kill:*'   force-list always
 zstyle -e ':completion:*:default' list-colors 'reply=("$${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")'
 
 zmodload -a colors
-# TODO: need to look this up as below is broken
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # complete with same colors as ls
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # complete with same colors as ls
 zstyle ':completion:*:*:*:*:hosts' list-colors '=*=1;36' # bold cyan
 zstyle ':completion:*:*:*:*:users' list-colors '=*=36;40' # dark cyan on black
 
 
-#eval "$(@starship@/bin/starship init zsh)"
 
 # source @zsh_autocomplete@/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source @zsh_syntax_highlighting@/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -133,9 +133,11 @@ zmodload -a complist
 
 if ls -1 /Library/Fonts/ /usr/share/fonts/ ~/.local/share/fonts/ /usr/share/fonts/truetype/ ~/Library/Fonts/ |& grep -q "Nerd Font"; then
   # we can't know if they are available, but if true type fonts are installed, let's just go for it
-  eval $(starship init zsh)
+  echo 'Found nerdfonts, using starship for prompt'
+  echo ""
+  eval "$(@starship@/bin/starship init zsh)"
 else
   echo "If you have a nerd font, run: "
-  echo "eval \$(starship init zsh)"
+  echo "eval \"\$(starship init zsh)\""
   echo ""
 fi
