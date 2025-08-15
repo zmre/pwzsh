@@ -102,6 +102,7 @@ alias llt='eza --icons --git-ignore --git -F --extended -l -T'
 alias ls='ls --color=auto -F'
 alias lt='eza --icons --git-ignore --git -F --extended -T'
 alias n='zk edit --interactive'
+alias nerd='eval "$(starship init zsh)"'
 
 
 zstyle ':completion:*' completer _extensions _complete _approximate
