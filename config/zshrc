@@ -13,15 +13,15 @@ source @zsh_autosuggestions@/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 eval "$(@zoxide@/bin/zoxide init zsh)"
 eval "$(@direnv@/bin/direnv hook zsh)"
 
+export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE="10000"
-export SAVEHIST="0"
+export SAVEHIST="10000"
 
 setopt HIST_FCNTL_LOCK
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_EXPIRE_DUPS_FIRST
-unsetopt HIST_EXPIRE_DUPS_FIRST
-unsetopt SHARE_HISTORY
+setopt SHARE_HISTORY
 unsetopt EXTENDED_HISTORY
 
 export LANG="en_US.UTF-8"
