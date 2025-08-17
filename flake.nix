@@ -17,12 +17,15 @@
     in rec {
       dependencies = with pkgs;
         [
+          # atuin # shell history?
           bat
           btop
           coreutils
           cowsay # this is here to help with testing
           curl
           direnv
+          du-dust
+          duf # df alternative showing free disk space
           eza
           exif
           fd
@@ -31,12 +34,15 @@
           fzy
           git
           gnused
+          jq
           less
           mdcat # colorize markdown
+          neofetch
           pstree
           inputs.pwnvim.packages.${system}.pwnvim
           ripgrep
           starship
+          yazi
           zoxide
           zsh
           zsh-completions
