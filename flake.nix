@@ -49,7 +49,7 @@
           jq
           less
           mdcat # colorize markdown
-          neofetch
+          fastfetch # neofetch replacement
           pstree
           inputs.pwnvim.packages.${system}.pwnvim
           ripgrep

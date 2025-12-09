@@ -132,7 +132,7 @@ source @zsh_syntax_highlighting@/share/zsh-syntax-highlighting/zsh-syntax-highli
 zmodload -a autocomplete
 zmodload -a complist
 
-neofetch
+fastfetch
 
 if ls -1 /Library/Fonts/ /usr/share/fonts/ ~/.local/share/fonts/ /usr/share/fonts/truetype/ ~/Library/Fonts/ |& grep -q "Nerd Font"; then
   # we can't know if they are available, but if true type fonts are installed, let's just go for it
