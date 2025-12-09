@@ -41,5 +41,4 @@ jobs:
         with:
           name: zmre
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-          extraPullNames: nix-community zmre
       - run: nix build
