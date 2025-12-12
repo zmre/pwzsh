@@ -36,7 +36,7 @@
           cowsay # this is here to help with testing
           curl
           direnv
-          du-dust
+          dust
           duf # df alternative showing free disk space
           eza
           exif
